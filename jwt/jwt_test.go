@@ -66,11 +66,11 @@ func TestJWT_ParseNil(t *testing.T) {
 
 func TestJWT_ParseInvalid(t *testing.T) {
 	parsed, err := j.Parse("invalid token")
-	if err != nil {
-		t.Fatal(err)
+	if err == nil {
+		t.Fatal("expected error for invalid token, got nil")
 	}
 
-	if parsed.Data != nil {
-		t.Fatalf("expected Data to be nil, got %+v", parsed.Data)
+	if parsed != nil {
+		t.Fatalf("expected parsed to be nil, got %+v", parsed)
 	}
 }
