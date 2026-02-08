@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPLv2
+// Copyright (c) 2026 scholar7r.
+
 // Package singleton provides a generic, concurrency-safe singleton helper.
 //
 // It allows lazy initialization of a value of any type, ensuring that the

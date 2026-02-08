@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPLv2
+// Copyright (c) 2026 scholar7r.
+
 // Package jwt provides a minimal, type-safe wrapper around github.com/golang-jwt/jwt
 // with support for generic custom claims data.
 package jwt
