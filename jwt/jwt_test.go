@@ -47,3 +47,19 @@ func TestJWT_Parse(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestJWT_ParseNil(t *testing.T) {
+	token, err := j.Generate(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	parsed, err := j.Parse(token)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if parsed.Data != nil {
+		t.Fatalf("expected Data to be nil, got %+v", parsed.Data)
+	}
+}
