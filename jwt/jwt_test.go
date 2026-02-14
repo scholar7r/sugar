@@ -15,22 +15,7 @@ type userClaims struct {
 
 var j = mjwt.New[userClaims]("secret")
 
-func TestJWT_Generate(t *testing.T) {
-	claims := &mjwt.Claims[userClaims]{
-		RegisteredClaims: jwt.RegisteredClaims{
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
-		},
-		Data: &userClaims{ID: 1, Name: "test"},
-	}
-
-	_, err := j.Generate(claims)
-	if err != nil {
-		t.Fatal(err)
-	}
-}
-
-func TestJWT_Parse(t *testing.T) {
+func TestJWT_GenerateAndParse(t *testing.T) {
 	token, err := j.Generate(&mjwt.Claims[userClaims]{
 		RegisteredClaims: jwt.RegisteredClaims{
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
