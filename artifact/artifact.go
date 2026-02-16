@@ -5,11 +5,11 @@
 // populated during the build process using:
 //
 //	go build -ldflags "-X <module>/artifact.Commit=..."
-//
-// The Print function outputs the metadata in a single-line, log-friendly format.
 package artifact
 
 import "fmt"
+
+type Artifact struct{}
 
 var (
 	BuiltTime    string // date +'%F %T %z'
@@ -18,10 +18,7 @@ var (
 	LastTag      string // git describe --tags --abbrev=0 2>/dev/null || echo "none"
 )
 
-// Print writes the build metadata to standard output in a single-line,
-// log-friendly format. The output includes commit hash, build time,
-// last tag, and last modifier information.
-func Print() {
-	fmt.Printf("artifact commit=\"%s\" built=\"%s\" tag=\"%s\" modifier=\"%s\"\n",
+func (Artifact) String() string {
+	return fmt.Sprintf("commit=\"%s\" built=\"%s\" tag=\"%s\" modifier=\"%s\"",
 		Commit, BuiltTime, LastTag, LastModifier)
 }
