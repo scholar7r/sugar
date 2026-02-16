@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPLv2
+// Copyright (c) 2026 scholar7r.
+
 // Package artifact exposes build-time metadata injected via -ldflags.
 //
 // It provides information such as the Git commit hash, build timestamp,
