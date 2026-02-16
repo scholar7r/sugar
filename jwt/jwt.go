@@ -6,15 +6,7 @@
 package jwt
 
 import (
-	"errors"
-
 	"github.com/golang-jwt/jwt/v5"
-)
-
-var (
-	ErrIsNil              = errors.New("token is nil")
-	ErrNotValid           = errors.New("token not valid")
-	ErrClaimsTypeMismatch = errors.New("claims type mismatch")
 )
 
 // JWT represents a JWT handler using a shared secret and generic claims data.
@@ -54,18 +46,7 @@ func (x *JWT[T]) Parse(tokenString string) (*Claims[T], error) {
 		return nil, err
 	}
 
-	if token == nil {
-		return nil, ErrIsNil
-	}
-
-	if !token.Valid {
-		return nil, ErrNotValid
-	}
-
-	claims, ok := token.Claims.(*Claims[T])
-	if !ok {
-		return nil, ErrClaimsTypeMismatch
-	}
+	claims := token.Claims.(*Claims[T])
 
 	return claims, nil
 }
