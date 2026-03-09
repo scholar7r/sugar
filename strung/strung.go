@@ -9,7 +9,7 @@ import "strings"
 //
 // ```go
 // v := TrimAround([]string{" ADD ", " 1 ", " AND ", " 2 "}) // v = []string{"ADD", "1", "AND", "2"}
-// ```
+// ```.
 func TrimAround(v []string, cutset string) []string {
 	var trimmed []string
 

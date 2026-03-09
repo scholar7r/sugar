@@ -20,15 +20,15 @@ type Artifact struct{}
 
 var (
 	// BuiltTime is the build timestamp.
-	// Example: `date +'%F %T %z'`
+	// Example: `date +'%F %T %z'`.
 	BuiltTime string
 
 	// Commit is the short Git commit hash.
-	// Example: `git rev-parse --short HEAD`
+	// Example: `git rev-parse --short HEAD`.
 	Commit string
 
 	// LastModifier is the author of the latest commit.
-	// Example: `git show -s --format='format:%aN <%ae>' HEAD`
+	// Example: `git show -s --format='format:%aN <%ae>' HEAD`.
 	LastModifier string
 
 	// LastTag is the most recent Git tag.
