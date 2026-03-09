@@ -21,24 +21,29 @@ type Artifact struct{}
 var (
 	// BuiltTime is the build timestamp.
 	// Example: `date +'%F %T %z'`.
-	BuiltTime string
+	builtTime string
 
 	// Commit is the short Git commit hash.
 	// Example: `git rev-parse --short HEAD`.
-	Commit string
+	commit string
 
 	// LastModifier is the author of the latest commit.
 	// Example: `git show -s --format='format:%aN <%ae>' HEAD`.
-	LastModifier string
+	lastModifier string
 
 	// LastTag is the most recent Git tag.
 	// Example:
 	//   git describe --tags --abbrev=0 2>/dev/null || echo "none"
-	LastTag string
+	lastTag string
 )
+
+func (Artifact) BuiltTime() string    { return builtTime }
+func (Artifact) Commit() string       { return commit }
+func (Artifact) LastModifier() string { return lastModifier }
+func (Artifact) LastTag() string      { return lastTag }
 
 // String returns a formatted representation of the build metadata.
 func (Artifact) String() string {
 	return fmt.Sprintf(`commit="%s" built="%s" tag="%s" modifier="%s"`,
-		Commit, BuiltTime, LastTag, LastModifier)
+		commit, builtTime, lastTag, lastModifier)
 }
