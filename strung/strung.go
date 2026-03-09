@@ -3,7 +3,7 @@ package strung
 
 import "strings"
 
-// TrimAround trims spaces around string
+// TrimAround trims characters around string
 //
 // Example:
 //
