@@ -1,15 +1,17 @@
-package singleton
+package singleton_test
 
 import (
 	"sync"
 	"sync/atomic"
 	"testing"
+
+	"github.com/scholar7r/sugar/singleton"
 )
 
 func TestSingleton_CreateOnce(t *testing.T) {
 	var count int32
 
-	s := New(func() int {
+	s := singleton.New(func() int {
 		atomic.AddInt32(&count, 1)
 		return 7
 	})
@@ -28,7 +30,7 @@ func TestSingleton_CreateOnce(t *testing.T) {
 func TestSingleton_Concurrent(t *testing.T) {
 	var count int32
 
-	s := New(func() int {
+	s := singleton.New(func() int {
 		atomic.AddInt32(&count, 1)
 		return 7
 	})

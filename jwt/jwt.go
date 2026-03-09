@@ -6,18 +6,20 @@
 package jwt
 
 import (
+	"errors"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
 // JWT represents a JWT handler using a shared secret and generic claims data.
 type JWT[T any] struct {
-	Secret []byte
+	secret []byte
 }
 
 // New creates a new JWT instance using the given secret string.
 func New[T any](secret string) *JWT[T] {
 	return &JWT[T]{
-		Secret: []byte(secret),
+		secret: []byte(secret),
 	}
 }
 
@@ -33,20 +35,23 @@ type Claims[T any] struct {
 func (x *JWT[T]) Generate(claims *Claims[T]) (string, error) {
 	v := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return v.SignedString(x.Secret)
+	return v.SignedString(x.secret)
 }
 
 // Parse parses and validates a JWT token string and returns the claims
 // if the token is valid.
 func (x *JWT[T]) Parse(tokenString string) (*Claims[T], error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims[T]{}, func(_ *jwt.Token) (any, error) {
-		return x.Secret, nil
+		return x.secret, nil
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	claims := token.Claims.(*Claims[T])
+	claims, ok := token.Claims.(*Claims[T])
+	if !ok {
+		return nil, errors.New("claims type not match")
+	}
 
 	return claims, nil
 }
