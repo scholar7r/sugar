@@ -6,8 +6,6 @@
 package jwt
 
 import (
-	"errors"
-
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -48,10 +46,7 @@ func (x *JWT[T]) Parse(tokenString string) (*Claims[T], error) {
 		return nil, err
 	}
 
-	claims, ok := token.Claims.(*Claims[T])
-	if !ok {
-		return nil, errors.New("claims type not match")
-	}
+	claims, _ := token.Claims.(*Claims[T])
 
 	return claims, nil
 }
