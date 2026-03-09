@@ -3,13 +3,7 @@ package strung
 
 import "strings"
 
-// TrimAround trims characters around string
-//
-// Example:
-//
-// ```go
-// v := TrimAround([]string{" ADD ", " 1 ", " AND ", " 2 "}) // v = []string{"ADD", "1", "AND", "2"}
-// ```.
+// TrimAround trims characters around string.
 func TrimAround(v []string, cutset string) []string {
 	var trimmed []string
 
@@ -18,4 +12,21 @@ func TrimAround(v []string, cutset string) []string {
 	}
 
 	return trimmed
+}
+
+// Unique removes duplicated strings from a slice, preserving order.
+func Unique(slice []string) []string {
+	var (
+		seen   = make(map[string]struct{}, len(slice))
+		result = make([]string, 0, len(slice))
+	)
+
+	for _, v := range slice {
+		if _, exists := seen[v]; !exists {
+			seen[v] = struct{}{}
+			result = append(result, v)
+		}
+	}
+
+	return result
 }
