@@ -36,3 +36,25 @@ func TestTrimAround(t *testing.T) {
 		})
 	}
 }
+
+func TestUnique(t *testing.T) {
+	tests := []struct {
+		name  string
+		slice []string
+		want  []string
+	}{
+		{
+			name:  "unique strings",
+			slice: []string{"a", "b", "a", "c"},
+			want:  []string{"a", "b", "c"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := strung.Unique(tt.slice)
+			if slices.Compare(got, tt.want) != 0 {
+				t.Errorf("Unique() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
