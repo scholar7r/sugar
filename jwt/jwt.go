@@ -12,12 +12,14 @@ import (
 // JWT represents a JWT handler using a shared secret and generic claims data.
 type JWT[T any] struct {
 	secret []byte
+	method jwt.SigningMethod
 }
 
 // New creates a new JWT instance using the given secret string.
-func New[T any](secret string) *JWT[T] {
+func New[T any](secret string, method jwt.SigningMethod) *JWT[T] {
 	return &JWT[T]{
 		secret: []byte(secret),
+		method: method,
 	}
 }
 
@@ -31,7 +33,7 @@ type Claims[T any] struct {
 
 // Generate creates and signs a JWT token using the provided claims.
 func (x *JWT[T]) Generate(claims *Claims[T]) (string, error) {
-	v := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	v := jwt.NewWithClaims(x.method, claims)
 
 	return v.SignedString(x.secret)
 }
@@ -39,7 +41,11 @@ func (x *JWT[T]) Generate(claims *Claims[T]) (string, error) {
 // Parse parses and validates a JWT token string and returns the claims
 // if the token is valid.
 func (x *JWT[T]) Parse(tokenString string) (*Claims[T], error) {
-	token, err := jwt.ParseWithClaims(tokenString, &Claims[T]{}, func(_ *jwt.Token) (any, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &Claims[T]{}, func(t *jwt.Token) (any, error) {
+		if t.Method.Alg() != x.method.Alg() {
+			return nil, jwt.ErrTokenSignatureInvalid
+		}
+
 		return x.secret, nil
 	})
 	if err != nil {
