@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPLv2
+// Copyright (c) 2026 scholar7r.
+
 // Package strung provides tools to process strings
 package strung
 
