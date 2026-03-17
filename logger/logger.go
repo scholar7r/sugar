@@ -22,7 +22,7 @@ var global = singleton.New(load)
 //
 // The logger is lazily initialized on first use and is safe for concurrent use.
 func Get() *zap.Logger {
-	return global.Get()
+	return *global.Get()
 }
 
 // load initializes a zap.Logger with a console encoder, colored levels,
