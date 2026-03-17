@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/scholar7r/sugar/logger"
+	"github.com/scholar7r/sugar/singleton/logger"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
