@@ -3,6 +3,7 @@ name: release
 on:
   schedule:
     - cron: "0 3 * * MON"
+  workflow_dispatch:
 
 jobs:
   build:
