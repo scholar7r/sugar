@@ -10,15 +10,18 @@ import (
 
 func TestSingleton_CreateOnce(t *testing.T) {
 	var count int32
+	type value struct {
+		X int
+	}
 
-	s := singleton.New(func() int {
+	s := singleton.New(func() value {
 		atomic.AddInt32(&count, 1)
-		return 7
+		return value{X: 7}
 	})
 
 	v := s.Get()
 
-	if v != 7 {
+	if v.X != 7 {
 		t.Fatalf("unexpected value: %v", v)
 	}
 

@@ -1,48 +1,49 @@
 // SPDX-License-Identifier: GPLv2
 // Copyright (c) 2026 scholar7r.
 
-// Package singleton provides a generic, concurrency-safe singleton helper.
+// Package singleton provides a generic, concurrency-safe Singleton type.
 //
-// It allows lazy initialization of a value of any type, ensuring that the
-// creation function is executed at most once.
+// Singleton allows lazy initialization of a value of any type, ensuring that
+// the provided creation function is executed at most once, even under
+// concurrent access.
 package singleton
 
 import (
 	"sync"
-	"sync/atomic"
 )
 
-// Singleton represents a lazily initialized, concurrency-safe singleton.
+// Singleton represents a lazily initialized, concurrency-safe singleton of any type.
 //
-// The zero value is not usable; use New to construct a Singleton.
+// The zero value of Singleton is not usable because the creation function is nil.
+// Use New to construct a usable Singleton instance.
 type Singleton[T any] struct {
-	instance atomic.Pointer[T]
+	instance *T
 	once     sync.Once
 	create   func() T
 }
 
-// New creates a new Singleton using the provided creation function.
+// New constructs a new Singleton using the provided creation function.
 //
-// The create function will be called at most once, even under concurrent access.
+// The create function must not be nil and will be called at most once, even
+// when multiple goroutines call Get concurrently. The singleton instance is
+// initialized lazily on first use.
 func New[T any](create func() T) *Singleton[T] {
 	return &Singleton[T]{
 		create: create,
 	}
 }
 
-// Get returns the singleton instance, initializing it on first use.
+// Get returns a pointer to the singleton instance, initializing it on first use.
 //
-// Get is safe for concurrent use and guarantees that the underlying instance
+// Get is safe for concurrent use. The creation function is guaranteed to be
+// executed at most once, and the returned instance will always point to the
+// same object of type T.
 // is created only once.
-func (s *Singleton[T]) Get() T {
-	if v := s.instance.Load(); v != nil {
-		return *v
-	}
-
+func (s *Singleton[T]) Get() *T {
 	s.once.Do(func() {
 		instance := s.create()
-		s.instance.Store(&instance)
+		s.instance = &instance
 	})
 
-	return *s.instance.Load()
+	return s.instance
 }
