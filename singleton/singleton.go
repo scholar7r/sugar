@@ -41,8 +41,7 @@ func New[T any](create func() T) *Singleton[T] {
 // is created only once.
 func (s *Singleton[T]) Get() *T {
 	s.once.Do(func() {
-		instance := s.create()
-		s.instance = &instance
+		s.instance = new(s.create())
 	})
 
 	return s.instance
