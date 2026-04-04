@@ -7,7 +7,7 @@
 // last Git tag, and last commit author. These values are typically
 // populated during the build process using:
 //
-//	go build -ldflags "-X <module>/artifact.Commit=..."
+//	go build -ldflags "-X <module>/artifact.commit=..."
 package artifact
 
 import "fmt"
