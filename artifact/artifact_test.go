@@ -21,6 +21,22 @@ func TestArtifact_String(t *testing.T) {
 	}
 }
 
+func TestArtifact_String2(t *testing.T) {
+	builtTime = "2026-02-16 12:00:00 +0000"
+	commit = "5a966941"
+	lastModifier = "John <john@example.com>"
+	lastTag = "v1.0.0"
+
+	art := &Artifact{}
+	got := art.String()
+
+	want := `commit="5a966941" built="2026-02-16 12:00:00 +0000" tag="v1.0.0" modifier="John <john@example.com>"`
+
+	if got != want {
+		t.Fatalf("unexpected output:\n got: %s\n want: %s", got, want)
+	}
+}
+
 func TestArtifact_BuiltTime(t *testing.T) {
 	builtTime = "2026-02-16 12:00:00 +0000"
 
