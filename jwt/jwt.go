@@ -16,9 +16,9 @@ type JWT[T any] struct {
 }
 
 // New creates a new JWT instance using the given secret string.
-func New[T any](secret string, method jwt.SigningMethod) *JWT[T] {
+func New[T any](secret []byte, method jwt.SigningMethod) *JWT[T] {
 	return &JWT[T]{
-		secret: []byte(secret),
+		secret: secret,
 		method: method,
 	}
 }
