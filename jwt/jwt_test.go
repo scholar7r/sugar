@@ -13,7 +13,7 @@ type userClaims struct {
 	Name string
 }
 
-var j = mjwt.New[userClaims]("secret", jwt.SigningMethodHS256)
+var j = mjwt.New[userClaims]([]byte("secret"), jwt.SigningMethodHS256)
 
 func TestJWT_GenerateAndParse(t *testing.T) {
 	token, err := j.Generate(&mjwt.Claims[userClaims]{
@@ -61,8 +61,8 @@ func TestJWT_ParseInvalid(t *testing.T) {
 }
 
 func TestJWT_WrongSigningMethod(t *testing.T) {
-	j1 := mjwt.New[userClaims]("secret", jwt.SigningMethodHS256)
-	j2 := mjwt.New[userClaims]("secret", jwt.SigningMethodHS384)
+	j1 := mjwt.New[userClaims]([]byte("secret"), jwt.SigningMethodHS256)
+	j2 := mjwt.New[userClaims]([]byte("secret"), jwt.SigningMethodHS384)
 
 	token, err := j1.Generate(&mjwt.Claims[userClaims]{
 		Data: &userClaims{ID: 1},
